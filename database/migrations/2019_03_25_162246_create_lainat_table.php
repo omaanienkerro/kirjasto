@@ -19,7 +19,7 @@ class CreateLainatTable extends Migration
             $table->integer('userID')->unsigned();
             $table->integer('lainattavaID')->unsigned();
             $table->date('lainaAlkaa');
-            $table->date('lainaplautettiin');
+            $table->date('lainaplautettiin')->nullable();
             $table->timestamps();
 
 

@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\kirja;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\lainattava;
 
-class KirjaController extends Controller
+class NideController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,7 @@ class KirjaController extends Controller
      */
     public function index()
     {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->get();
-
-        return response()->json($kirjat);
-    }
-
-
-    public function show($id)
-    {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->find($id);
+        $kirjat = lainattava::with('kirja')->get();
 
         return response()->json($kirjat);
     }
@@ -46,18 +38,16 @@ class KirjaController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new kirja;
 
-        $user->nimi = $request->rkirja["nimi"];
-        $user->kuvaus = $request->rkirja["kuvaus"];
-        $user->tekijaID = $request->rkirja["kirjailija"];
-        $user->vuosi = $request->rkirja["vuosi"];
-        $user->kategoriaID = $request->rkirja["Kategoria"];
-        $user->tyyppiID = $request->rkirja["tyyppi"];
-        $user->kuva = $request->rkirja["kuva"];
-        $user->save();
+        $nide = new lainattava;
 
-        return 'OK';
+        $nide->kuvausID = $request->nide["kirjaid"];
+        $nide->save();
+        $kirjat = lainattava::with('kirja')->get();
+
+
+        return response()->json($kirjat);
+
     }
 
     /**
@@ -66,7 +56,7 @@ class KirjaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show2($id)
+    public function show($id)
     {
         //
     }
@@ -102,6 +92,10 @@ class KirjaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $nide = lainattava::find($id);
+        $nide->delete();
+
+        $kirjat = lainattava::with('kirja')->get();
+        return response()->json($kirjat);
     }
 }

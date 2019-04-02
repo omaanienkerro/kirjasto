@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class tekija extends Model
 {
+
     protected $table = 'tekija';
 
     public function nimi()

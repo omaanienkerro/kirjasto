@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\kirja;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\laina;
 
-class KirjaController extends Controller
+
+class LainausController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,17 +16,9 @@ class KirjaController extends Controller
      */
     public function index()
     {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->get();
+        $lainat = laina::with('lainattava')->get();
 
-        return response()->json($kirjat);
-    }
-
-
-    public function show($id)
-    {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->find($id);
-
-        return response()->json($kirjat);
+        return response()->json($lainat);
     }
 
     /**
@@ -35,7 +28,7 @@ class KirjaController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -46,18 +39,14 @@ class KirjaController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new kirja;
+        $laina = new laina;
 
-        $user->nimi = $request->rkirja["nimi"];
-        $user->kuvaus = $request->rkirja["kuvaus"];
-        $user->tekijaID = $request->rkirja["kirjailija"];
-        $user->vuosi = $request->rkirja["vuosi"];
-        $user->kategoriaID = $request->rkirja["Kategoria"];
-        $user->tyyppiID = $request->rkirja["tyyppi"];
-        $user->kuva = $request->rkirja["kuva"];
-        $user->save();
+        $laina->userID = $request->laina["asiakas"];
+        $laina->lainattavaID = $request->laina["nide"];
+        $laina->save();
 
-        return 'OK';
+
+        return "ok";
     }
 
     /**
@@ -66,7 +55,7 @@ class KirjaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show2($id)
+    public function show($id)
     {
         //
     }
@@ -91,7 +80,7 @@ class KirjaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

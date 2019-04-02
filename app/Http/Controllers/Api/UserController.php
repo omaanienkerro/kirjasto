@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\kirja;
+use App\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class KirjaController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,17 +15,7 @@ class KirjaController extends Controller
      */
     public function index()
     {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->get();
-
-        return response()->json($kirjat);
-    }
-
-
-    public function show($id)
-    {
-        $kirjat = kirja::with('tekija','kategoria','tyyppi')->find($id);
-
-        return response()->json($kirjat);
+        //
     }
 
     /**
@@ -46,18 +36,20 @@ class KirjaController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new kirja;
+        $user = new user;
 
-        $user->nimi = $request->rkirja["nimi"];
-        $user->kuvaus = $request->rkirja["kuvaus"];
-        $user->tekijaID = $request->rkirja["kirjailija"];
-        $user->vuosi = $request->rkirja["vuosi"];
-        $user->kategoriaID = $request->rkirja["Kategoria"];
-        $user->tyyppiID = $request->rkirja["tyyppi"];
-        $user->kuva = $request->rkirja["kuva"];
+        $user->etunimi = $request->user["enimi"];
+        $user->sukunimi = $request->user["snimi"];
+        $user->email = $request->user["email"];
+        $user->puhelinnumero = $request->user["puhelinnumero"];
+        $user->osoite = $request->user["osoite"];
+        $user->postinumero = $request->user["postinumero"];
+        $user->password = $request->user["salasana"];
         $user->save();
 
-        return 'OK';
+    return response()->json();
+
+
     }
 
     /**
@@ -66,7 +58,7 @@ class KirjaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show2($id)
+    public function show($id)
     {
         //
     }
