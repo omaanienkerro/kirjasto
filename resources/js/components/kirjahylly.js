@@ -13,14 +13,41 @@ import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
+import Valikko from "./valikko"
+import Kirjacard from "./kirjacard"
+import Footer from "./footer"
+
+
 
 const styles = theme => ({
+    appBar: {
+        position: 'relative',
+    },
     icon: {
         marginRight: theme.spacing.unit * 2,
     },
+    heroUnit: {
+    },
+    heroContent: {
+        maxWidth: 600,
+        margin: '0 auto',
+        padding: `${theme.spacing.unit * 12}px 0 ${theme.spacing.unit * 0}px`,
+    },
+    heroButtons: {
+        marginTop: theme.spacing.unit * 4,
+    },
+    layout: {
+        width: 'auto',
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+            width: 1100,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
     cardGrid: {
-        padding: `${theme.spacing.unit * 8}px 0`,
+        padding: `${theme.spacing.unit * 5}px 0`,
     },
     card: {
         height: '100%',
@@ -28,79 +55,44 @@ const styles = theme => ({
         flexDirection: 'column',
     },
     cardMedia: {
-        paddingTop: '135%',
+        paddingTop: '56.25%', // 16:9
     },
     cardContent: {
         flexGrow: 1,
     },
+    footer: {
+        backgroundColor: theme.palette.background.paper,
+        padding: theme.spacing.unit * 6,
+    },
 });
 
 
-
-function Kortti(props) {
+function Kirjahylly(props) {
     const { classes } = props;
+
     return (
-        <Grid item key={props.key} sm={6} md={4} lg={4}>
-        <Card className={classes.card}>
-            <CardMedia
-                className={classes.cardMedia}
-                image={props.kuva}
-                title="Image title"
-            />
-            <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {props.otsikko}
-                </Typography>
-                <Typography>
-                    {props.kuvaus}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small" color="primary">
-                    Lue lisää
-                </Button>
-                <Button size="small" color="primary">
-                    Lainaa
-                </Button>
-            </CardActions>
-        </Card>
-        </Grid>
+        <React.Fragment>
+            <CssBaseline />
+            <main>
+                <div className={classes.heroUnit}>
+                    <div className={classes.heroContent}>
+                        <Typography variant="h2" align="center" color="textPrimary" paragraph>
+                              Kirjat
+                        </Typography>
+                    </div>
+                </div>
+                <div className={classNames(classes.layout, classes.cardGrid)}>
+                    <Grid container spacing={40}>
+                    <Kirjacard/>
+                    </Grid>
+                </div>
+            </main>
+        </React.Fragment>
     );
 }
 
-
-
-
-
-class kirjahylly extends React.Component {
-    state = {
-        kirjat: []
-    }
-
-    componentDidMount() {
-        axios.get("http://rtu.test/api/kirja")
-            .then(res => {
-                const kirjat = res.data;
-                this.setState({ kirjat });
-            })
-    }
-
-
-    render() {
-        let Korttia = (withStyles(styles)(Kortti));
-
-        return (
-            <Grid container spacing={40}>
-            { this.state.kirjat.map(kirja => <Korttia key={kirja.id}kuva={"img/"+kirja.kuva} otsikko={kirja.nimi} kuvaus={kirja.kuvaus}/>)}
-            </Grid>
-
-
-            )
-    }
-}
-
-Kortti.propTypes = {
+Kirjahylly.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default kirjahylly;
+export default withStyles(styles)(Kirjahylly);

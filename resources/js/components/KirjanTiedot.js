@@ -124,8 +124,6 @@ class KirjanTiedot extends React.Component{
 
     render() {
         const { classes } = this.props;
-        if(this.state.kirja && this.state.kirja.tyyppi) {
-        }
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -198,7 +196,7 @@ class KirjanTiedot extends React.Component{
                                             </div>
                                         </div>
                                         <div className={classes.section3}>
-                                            <Button variant="contained" color="primary" fullWidth>
+                                            <Button variant="contained" color="primary" component={Link} to={'/lainaa/'+this.state.kirja.id} fullWidth>
                                                 Lainaa
                                             </Button>
                                         </div>
